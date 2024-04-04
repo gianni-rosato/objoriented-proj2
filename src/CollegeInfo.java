@@ -20,7 +20,8 @@ public class CollegeInfo {
     private ArrayList<DeptInfo> departments = null;
     private String collegeName;
 
-    public CollegeInfo() {};
+    public CollegeInfo() {
+    }
 
     public CollegeInfo(String collegeName, ArrayList<DeptInfo> departments) {
         this.collegeName = collegeName;
@@ -29,6 +30,10 @@ public class CollegeInfo {
 
     public String getName() {
         return collegeName;
+    }
+
+    public int getDeptListSize() {
+        return departments.size();
     }
 
     public int totalFaculty() {
@@ -84,7 +89,7 @@ public class CollegeInfo {
                 }
             }
         }
-        return deptWithMaxUgrads;
+        return deptWithMaxUgrads + " (" + maxUgrads + ")";
     }
 
     public String deptWithMaxGrads() {
@@ -101,7 +106,7 @@ public class CollegeInfo {
                 }
             }
         }
-        return deptWithMaxGrads;
+        return deptWithMaxGrads + " (" + maxGrads + ")";
     }
 
     public double totalResearchFunding() {
@@ -123,22 +128,23 @@ public class CollegeInfo {
         // (each on a separate line). If there are zero DeptInfo objects in the list,
         // the String “No departments found” should be returned. Note that each line
         // has three leading spaces.
-        String researchFundingReport = "   ";
+        String researchFundingReport = "";
         // null check for departments list
         if (departments != null) {
             for (DeptInfo dept : departments) {
-                researchFundingReport += dept.getName() + ": $" + dept.getResFunding() + "\n   ";
+                String formattedFunding = String.format("%,d", (int) dept.getResFunding());
+                researchFundingReport += "\t$" + formattedFunding + " " + dept.getName() + "\n";
             }
         } else {
             return "No departments found";
         }
-        researchFundingReport += "Total: $" + totalResearchFunding() + "\n";
+        researchFundingReport += "\tTotal: $" + String.format("%,d", (int) totalResearchFunding());
         return researchFundingReport;
     }
 
     @Override
     public String toString() {
-        String collegeInfo = collegeName + "\n";
+        String collegeInfo = "College of " + collegeName + "\n\n";
         // null check for departments list
         if (departments != null) {
             for (DeptInfo dept : departments) {
@@ -155,7 +161,7 @@ public class CollegeInfo {
         // file, storing the college name and creating an ArrayList of DeptInfo
         // objects, uses college name and the ArrayList to create a CollegeInfo
         // object, and then returns the CollegeInfo object.
-        ArrayList<DeptInfo> deptList = new ArrayList<DeptInfo>();
+        ArrayList<DeptInfo> deptList = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String lineFromFile;
@@ -222,12 +228,13 @@ public class CollegeInfo {
         // - Department with the maximum number of undergraduate students
         // - Department with the maximum number of graduate students
         // - Research funding report
-        return "Total faculty: " + totalFaculty() + "\n" +
-               "Total undergraduate students: " + totalUgrads() + "\n" +
-               "Total graduate students: " + totalGrads() + "\n" +
-               "Department with the maximum number of undergraduate students: " + deptWithMaxUgrads() + "\n" +
-               "Department with the maximum number of graduate students: " + deptWithMaxGrads() + "\n" +
-               researchFundingReport();
+        return "Total Faculty: " + totalFaculty() + "\n" +
+                "Total Undergraduate Students: " + totalUgrads() + "\n" +
+                "Total Graduate Students: " + totalGrads() + "\n" +
+                "Dept with Most Undergraduate Students: " + deptWithMaxUgrads() + "\n" +
+                "Dept with Most Graduate Students: " + deptWithMaxGrads() + "\n" +
+                "Dept Research Funding:\n" +
+                researchFundingReport();
     }
 
     public void addDeptInfo(String name,
@@ -237,11 +244,10 @@ public class CollegeInfo {
                             int gradTeachingAssistants,
                             int undergradStudents,
                             int gradStudents,
-                            double researchFunding)
-    {
+                            double researchFunding) {
         // Adds a new DeptInfo object to the ArrayList of DeptInfo objects.
         if (departments == null) {
-            departments = new ArrayList<DeptInfo>();
+            departments = new ArrayList<>();
         }
         departments.add(new DeptInfo(name, abbreviation, location, faculty, gradTeachingAssistants, undergradStudents, gradStudents, researchFunding));
     }
@@ -276,12 +282,5 @@ public class CollegeInfo {
             }
         }
         return " not found";
-    }
-
-    public static void main(String[] args) {
-        System.out.print("Hello and welcome!");
-        for (int i = 1; i <= 5; i++) {
-            System.out.println("i = " + i);
-        }
     }
 }

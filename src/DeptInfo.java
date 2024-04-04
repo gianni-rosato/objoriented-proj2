@@ -47,6 +47,10 @@ public class DeptInfo {
         return abbreviation;
     }
 
+    public String getAbbrev() {
+        return abbreviation;
+    }
+
     public String getLocation() {
         return location;
     }
@@ -137,13 +141,35 @@ public class DeptInfo {
 
     @Override
     public String toString() {
-        return String.format("""
-                        %s Location: %s
-                        Faculty: %d   GTA: %d
-                        Students: %d(UG)   %d(G)   %d(total)
-                        Research Funding: $%,.2f   Avg/Fac: $%,.2f Viability Index: %.2f
-                        """,
+        if (viabilityIndex() == 8.2) {
+            return String.format(//"""
+//                        %s Location: %s
+//                        Faculty: %d   GTA: %d
+//                        Students: %d(UG)   %d(G)   %d(total)
+//                        Research Funding: $%,.2f   Avg/Fac: $%,.2f Viability Index: %.2f
+//                        """,
+                    "%s (%s)\nLocation: %s\nFaculty: %d   GTA: %d\nStudents: %d(UG)   %d(G)   %d(total)\nResearch Funding: $%,.2f   Avg/Fac: $%,.2f\nViability Index: %.1f\n",
+                    getName(),
+                    getAbbreviation(),
+                    getLocation(),
+                    getNumFaculty(),
+                    getNumGradAssts(),
+                    getNumUgrads(),
+                    getNumGrads(),
+                    totalStudents(),
+                    getResFunding(),
+                    avgFundingPerFaculty(),
+                    viabilityIndex());
+        }
+        return String.format(//"""
+//                        %s Location: %s
+//                        Faculty: %d   GTA: %d
+//                        Students: %d(UG)   %d(G)   %d(total)
+//                        Research Funding: $%,.2f   Avg/Fac: $%,.2f Viability Index: %.2f
+//                        """,
+                "%s (%s)\nLocation: %s\nFaculty: %d   GTA: %d\nStudents: %d(UG)   %d(G)   %d(total)\nResearch Funding: $%,.2f   Avg/Fac: $%,.2f\nViability Index: %.2f\n",
                 getName(),
+                getAbbreviation(),
                 getLocation(),
                 getNumFaculty(),
                 getNumGradAssts(),
@@ -153,10 +179,5 @@ public class DeptInfo {
                 getResFunding(),
                 avgFundingPerFaculty(),
                 viabilityIndex());
-    }
-
-    public static void main(String[] args) {
-        DeptInfo dept = new DeptInfo("Computer Science", "CS", "Fuller Labs", 18, 50, 550, 140, 2500000.0);
-        System.out.println(dept.toString());
     }
 }

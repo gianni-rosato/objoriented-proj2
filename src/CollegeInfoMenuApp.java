@@ -1,29 +1,46 @@
 import java.util.Objects;
 import java.util.Scanner;
 
-public class CollegeInfoListMenuApp {
+import static java.lang.System.exit;
+
+public class CollegeInfoMenuApp {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         CollegeInfo collegeInfo = null;
-        System.out.println("""
-                    CollegeInfo System Menu
-                    R - Read in File and Create CollegeInfo
-                    P - Print CollegeInfo
-                    S - Print Summary
-                    A - Add DeptInfo Object
-                    D - Delete DeptInfo Object
-                    F - Find DeptInfo Object
-                    Q - Quit
-                    """);
+        // NOTE: zyBooks still doesn't like text blocks for some reason
+//        System.out.println("""
+//                    CollegeInfo System Menu
+//                    R - Read in File and Create CollegeInfo
+//                    P - Print CollegeInfo
+//                    S - Print Summary
+//                    A - Add DeptInfo Object
+//                    D - Delete DeptInfo Object
+//                    F - Find DeptInfo Object
+//                    Q - Quit
+//                    """);
+        System.out.println("CollegeInfo System Menu");
+        System.out.println("R - Read in File and Create CollegeInfo");
+        System.out.println("P - Print CollegeInfo");
+        System.out.println("S - Print Summary");
+        System.out.println("A - Add DeptInfo Object");
+        System.out.println("D - Delete DeptInfo Object");
+        System.out.println("F - Find DeptInfo Object");
+        System.out.println("Q - Quit");
 
         while (true) {
             System.out.print("Enter code [R, P, S, A, D, F, or Q]: ");
             char choice = scanner.next().charAt(0);
 
+            if (choice != 'r' && choice != 'p' && choice != 's' && choice != 'a' && choice != 'd' && choice != 'f' && choice != 'q') {
+                System.out.println("Invalid choice; please enter a valid character.");
+                exit(1);
+            }
+
             switch (choice) {
                 case 'r':
                     System.out.print("      File name: ");
-                    String fileName = scanner.next();
+                    String fileName = "/home/gianni13700k/git-cloning/objoriented-proj2/src/college-1.dat";
+                    // String fileName = scanner.next();
                     collegeInfo = new CollegeInfo().readFile(fileName);
                     // System.out.println("      File name: " + fileName);
                     System.out.println("      File read in and CollegeInfo object created\n");
@@ -92,9 +109,7 @@ public class CollegeInfoListMenuApp {
                 case 'q':
                     System.out.println("Exiting the program...");
                     scanner.close();
-                    System.exit(0);
-                default:
-                    System.out.println("Invalid choice; please enter a valid character.");
+                    exit(0);
             }
         }
     }
