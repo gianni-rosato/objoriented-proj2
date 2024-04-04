@@ -128,32 +128,32 @@ public class CollegeInfo {
         // (each on a separate line). If there are zero DeptInfo objects in the list,
         // the String “No departments found” should be returned. Note that each line
         // has three leading spaces.
-        String researchFundingReport = "";
+        StringBuilder researchFundingReport = new StringBuilder();
         // null check for departments list
         if (departments != null) {
             for (DeptInfo dept : departments) {
                 String formattedFunding = String.format("%,d", (int) dept.getResFunding());
-                researchFundingReport += "\t$" + formattedFunding + " " + dept.getName() + "\n";
+                researchFundingReport.append("\t$").append(formattedFunding).append(" ").append(dept.getName()).append("\n");
             }
         } else {
             return "No departments found";
         }
-        researchFundingReport += "\tTotal: $" + String.format("%,d", (int) totalResearchFunding());
-        return researchFundingReport;
+        researchFundingReport.append("\tTotal: $").append(String.format("%,d", (int) totalResearchFunding()));
+        return researchFundingReport.toString();
     }
 
     @Override
     public String toString() {
-        String collegeInfo = "College of " + collegeName + "\n\n";
+        StringBuilder collegeInfo = new StringBuilder("College of " + collegeName + "\n\n");
         // null check for departments list
         if (departments != null) {
             for (DeptInfo dept : departments) {
-                collegeInfo += dept.toString() + "\n";
+                collegeInfo.append(dept.toString()).append("\n");
             }
         } else {
             return "No departments found";
         }
-        return collegeInfo;
+        return collegeInfo.toString();
     }
 
     public CollegeInfo readFile(String fileName) {
